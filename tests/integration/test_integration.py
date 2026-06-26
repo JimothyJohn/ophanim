@@ -13,7 +13,7 @@ CONTENT_TYPE_JSON = "application/json"
 
 def test_detect_successful_post(
     test_body: dict,
-    assert_post_response: Callable[[Dict[str, Any]], None],
+    assert_post_response: Callable[[Dict[str, Any], int], None],
     assert_cors_headers: Callable[[dict[str, str]], None],
 ):
     start_time = time()
@@ -32,7 +32,7 @@ def test_detect_successful_post(
 
 
 def test_detect_successful_get(
-    assert_get_response: Callable[[Dict[str, Any]], None],
+    assert_get_response: Callable[[Dict[str, Any], int], None],
     assert_cors_headers: Callable[[dict[str, str]], None],
 ):
     response = requests.get(API_GATEWAY_URL)
@@ -79,7 +79,7 @@ def test_detect_post_invalid_fields(
     field: str,
     value: Any,
     expected_error: str,
-    assert_error_response: Callable[[Dict[str, Any]], None],
+    assert_error_response: Callable[[Dict[str, Any], int, str], None],
     assert_cors_headers: Callable[[dict[str, str]], None],
 ) -> None:
     body = test_body.copy()
@@ -93,7 +93,7 @@ def test_detect_post_invalid_fields(
 
 def test_detect_post_valid_save_image(
     test_body: dict,
-    assert_post_response: Callable[[Dict[str, Any]], None],
+    assert_post_response: Callable[[Dict[str, Any], int], None],
     assert_cors_headers: Callable[[dict[str, str]], None],
 ):
     body = test_body.copy()

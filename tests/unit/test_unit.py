@@ -9,7 +9,7 @@ pytestmark = pytest.mark.unit
 def test_detect_successful_post(
     apigw_event_factory: Callable[..., dict[str, Any]],
     test_body: dict,
-    assert_post_response: Callable[[dict[str, Any]], None],
+    assert_post_response: Callable[[dict[str, Any], int], None],
     assert_cors_headers: Callable[[dict[str, str]], None],
 ) -> None:
     event = apigw_event_factory(
@@ -25,7 +25,7 @@ def test_detect_successful_post(
 
 def test_detect_successful_get(
     apigw_event_factory: Callable[..., dict[str, Any]],
-    assert_get_response: Callable[[dict[str, Any]], None],
+    assert_get_response: Callable[[dict[str, Any], int], None],
     assert_cors_headers: Callable[[dict[str, str]], None],
 ) -> None:
     # This test checks the response for a GET request,
@@ -152,7 +152,7 @@ def test_detect_post_valid_save_image(
 def test_detect_post_invalid_fields(
     apigw_event_factory: Callable[..., dict[str, Any]],
     assert_cors_headers: Callable[[dict[str, str]], None],
-    assert_error_response: Callable[[dict[str, Any]], None],
+    assert_error_response: Callable[[dict[str, Any], int, str], None],
     test_body: dict,
     field: str,
     value: Any,

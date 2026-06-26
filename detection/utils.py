@@ -3,20 +3,6 @@ from PIL import Image
 import numpy as np
 import base64
 
-GET_RESPONSE = {
-    "message": "This endpoint uses POST requests.",
-    "usage": {
-        "method": "POST",
-        "content_type": "application/json",
-        "body": {
-            "image": "base64 encoded image string",
-            "conf_thres": "float (optional, default: 0.7)",
-            "iou_thres": "float (optional, default: 0.5)",
-        },
-    },
-    "description": "This endpoint performs object detection on the provided image using YOLOv8. It returns a list of detected objects with their bounding boxes, confidence scores, and class names.",
-}
-
 
 class ImageEncoder:
     def __init__(self, image_path: str):

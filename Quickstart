@@ -136,6 +136,11 @@ validate_and_build() {
         return 1
     fi
 
+    if ! uv run ty check -q; then
+        log "ERROR: Type checking failed"
+        return 1
+    fi
+
     if ! uv run ruff format -q; then
         log "ERROR: Code formatting failed"
         return 1

@@ -6,21 +6,21 @@ import logging
 import uuid
 import boto3
 from io import BytesIO
-from typing import Dict, List, Any
+from typing import Any, Dict, List, Tuple, Optional
 from PIL import Image
 
 try:
     # Local development (package-relative imports)
     from .onnx_detector import OnnxDetector, DetectionResult
-    from .utils import GET_RESPONSE
+    from .openapi import OPENAPI_SPEC
     from .coco import CocoClassMapper
     from .config import MODEL_PATH
 except ImportError:
     # Lambda environment (flat imports)
-    from onnx_detector import OnnxDetector, DetectionResult
-    from utils import GET_RESPONSE
-    from coco import CocoClassMapper
-    from config import MODEL_PATH
+    from onnx_detector import OnnxDetector, DetectionResult  # type: ignore
+    from openapi import OPENAPI_SPEC  # type: ignore
+    from coco import CocoClassMapper  # type: ignore
+    from config import MODEL_PATH  # type: ignore
 import functools
 from functools import lru_cache
 
@@ -58,7 +58,7 @@ def get_class_mapper():
     )
 
 
-def detect(body: Dict[str, Any]) -> List[Dict[str, Any]]:
+def detect(body: Dict[str, Any]) -> Tuple[List[Dict[str, Any]], Optional[str]]:
     """
     Perform object detection on an image and return detections with class names.
     If save_image is True, saves the image and detections to S3.
@@ -215,10 +215,11 @@ def validate_body(body: dict) -> tuple:
             try:
                 if key in ["conf_thres", "iou_thres"]:
                     float_value = float(value)
-                    if not rule["validator"](float_value):
+                    validator = rule["validator"]
+                    if callable(validator) and not validator(float_value):
                         return False, {"error": rule["range_error"]}
                     validated[key] = float_value
-                elif rule["validator"](value):
+                elif callable(rule["validator"]) and rule["validator"](value):
                     validated[key] = value
                 else:
                     return False, {"error": rule["error"]}
@@ -268,7 +269,7 @@ def lambda_handler(event: dict, context: Any) -> dict:
     if event.get("httpMethod") == "GET":
         return {
             "statusCode": 200,
-            "body": json.dumps(GET_RESPONSE),
+            "body": json.dumps(OPENAPI_SPEC),
             "headers": {**cors_headers, "Content-Type": "application/json"},
         }
 

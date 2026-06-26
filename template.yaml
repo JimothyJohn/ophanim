@@ -25,6 +25,7 @@ Conditions:
 Globals:
   Function:
     Timeout: 30
+    # Lowering this will increase processing time so much that will cost more to use less memory
     MemorySize: 2048
     Tracing: Active
     # You can add LoggingConfig parameters such as the Logformat, Log Group, and SystemLogLevel or ApplicationLogLevel. Learn more here https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html#sam-function-loggingconfig.
@@ -53,7 +54,7 @@ Resources:
       Architectures:
         - x86_64
       EphemeralStorage:
-        Size: 4096
+        Size: 2048 
       EventInvokeConfig:
         MaximumEventAgeInSeconds: 21600
         MaximumRetryAttempts: 2

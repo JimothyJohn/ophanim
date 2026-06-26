@@ -1,6 +1,7 @@
 import pytest
+from typing import Callable, Dict, Any
 from tests.utils import encode_image_to_base64
-from detection.utils import GET_RESPONSE
+from detection.openapi import OPENAPI_SPEC
 
 CONTENT_TYPE_JSON = "application/json"
 HTTP_METHOD_POST = "POST"
@@ -34,7 +35,7 @@ def assert_cors_headers():
 
 
 @pytest.fixture(scope="function")
-def apigw_event_factory() -> dict:
+def apigw_event_factory() -> Callable[..., Dict[str, Any]]:
     """Factory fixture to generate customizable API Gateway events"""
 
     def _make_apigw_event(
@@ -113,28 +114,7 @@ def apigw_event_factory() -> dict:
 def assert_get_response():
     def _assert_get_response(body, status_code):
         assert status_code == 200
-
-        assert body["message"] == GET_RESPONSE["message"]
-        assert "usage" in body
-        assert "description" in body
-
-        usage = body["usage"]
-        assert usage["method"] == GET_RESPONSE["usage"]["method"]
-        assert usage["content_type"] == GET_RESPONSE["usage"]["content_type"]
-        assert "body" in usage
-
-        usage_body = usage["body"]
-        assert "image" in usage_body
-        assert "conf_thres" in usage_body
-        assert "iou_thres" in usage_body
-
-        assert body["description"]
-
-        assert usage_body["image"] == GET_RESPONSE["usage"]["body"]["image"]
-        assert usage_body["conf_thres"] == GET_RESPONSE["usage"]["body"]["conf_thres"]
-        assert usage_body["iou_thres"] == GET_RESPONSE["usage"]["body"]["iou_thres"]
-
-        assert body["description"] == GET_RESPONSE["description"]
+        assert body == OPENAPI_SPEC
 
     return _assert_get_response
 

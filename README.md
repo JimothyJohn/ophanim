@@ -21,7 +21,7 @@ A cost-effective way to detect objects in your environment. Each query completes
 
 * [Microsoft ONNX Runtime](https://github.com/microsoft/onnxruntime): Accelerated CPU runtime. No expensive GPUs
 
-* [RF-DETR](https://github.com/roboflow/rf-detr): Pretrained, general purpose detection/segmentation transformer. Easily repurposed for your own use case
+* [Roboflow RF-DETR](https://github.com/roboflow/rf-detr): Pretrained, general purpose detection/segmentation transformer. Easily repurposed for your own use case
 
 ## Special thanks
 
@@ -33,4 +33,4 @@ A cost-effective way to detect objects in your environment. Each query completes
 
 [ ] Fine-tuning tutorial
 
-[ ] Ojito integration
+[ ] [Supervictor](https://github.com/JimothyJohn/supervictor)/[Ojito](https://github.com/JimothyJohn/ojito) integration

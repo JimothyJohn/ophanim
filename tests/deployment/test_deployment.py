@@ -46,7 +46,7 @@ def api_gateway_url():
 def test_detect_successful_post(
     api_gateway_url: str,
     test_body: dict,
-    assert_post_response: Callable[[Dict[str, Any]], None],
+    assert_post_response: Callable[[Dict[str, Any], int], None],
     assert_cors_headers: Callable[[dict[str, str]], None],
 ):
     start_time = time()
@@ -66,9 +66,9 @@ def test_detect_successful_post(
 
 def test_detect_successful_get(
     api_gateway_url: str,
-    assert_get_response: Callable[[Dict[str, Any]], None],
+    assert_get_response: Callable[[Dict[str, Any], int], None],
     assert_cors_headers: Callable[[dict[str, str]], None],
-):
+) -> None:
     response = requests.get(api_gateway_url)
     assert_get_response(response.json(), response.status_code)
     assert_cors_headers(response.headers)
@@ -116,7 +116,7 @@ def test_detect_post_invalid_fields(
     value: Any,
     expected_error: str,
     assert_cors_headers: Callable[[dict[str, str]], None],
-    assert_error_response: Callable[[Dict[str, Any]], None],
+    assert_error_response: Callable[[Dict[str, Any], int, str], None],
 ) -> None:
     body = test_body.copy()
     body[field] = value

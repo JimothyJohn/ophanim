@@ -22,6 +22,7 @@ dev = [
     "psutil>=5.9.0",
     "ruff>=0.15.1",
     "ty>=0.0.17",
+    "openapi-spec-validator>=0.7.2",
 ]
 
 [tool.setuptools.packages.find]

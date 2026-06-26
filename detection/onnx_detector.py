@@ -8,7 +8,95 @@ from PIL import Image
 try:
     import detection.utils as utils
 except ImportError:
-    import utils
+    import utils  # type: ignore
+
+
+# RF-DETR emits the original (gapped) COCO 91-category IDs, while coco.yaml and
+# YOLOv8 use the contiguous 0-79 index. This is the ordered list of 91-scheme IDs
+# that the 80 COCO classes occupy; its position is the 0-79 index.
+COCO_91_IDS = [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    27,
+    28,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62,
+    63,
+    64,
+    65,
+    67,
+    70,
+    72,
+    73,
+    74,
+    75,
+    76,
+    77,
+    78,
+    79,
+    80,
+    81,
+    82,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90,
+]
+COCO_91_TO_80 = {cid: idx for idx, cid in enumerate(COCO_91_IDS)}
 
 
 @dataclass
@@ -186,9 +274,8 @@ class OnnxDetector:
         pred_logits = outputs[1]
 
         # Apply sigmoid
-        prob = 1 / (1 + np.exp(-pred_logits))
+        prob = 1 / (1 + np.exp(-pred_logits))  # type: ignore
 
-        # Get scores and labels
         # shape (1, 300, 91) -> (300, 91)
         prob = prob[0]
         scores = np.max(prob, axis=1)
@@ -198,7 +285,7 @@ class OnnxDetector:
         sorted_idx = np.argsort(scores)[::-1]
         scores = scores[sorted_idx][:max_number_boxes]
         labels = labels[sorted_idx][:max_number_boxes]
-        boxes = pred_boxes[0][sorted_idx][:max_number_boxes]
+        boxes = pred_boxes[0][sorted_idx][:max_number_boxes]  # type: ignore
 
         # Filter by threshold
         keep = scores > conf_thres
@@ -209,6 +296,12 @@ class OnnxDetector:
         # Convert boxes: cxcywh (0-1) -> xyxy (absolute)
         w, h = orig_size
         boxes = self._box_cxcywh_to_xyxy(boxes, w, h)
+
+        # Remap gapped COCO-91 IDs to the contiguous 0-79 space used by coco.yaml.
+        # Unknown IDs (e.g. background/N-A categories) map to -1 -> "Unknown".
+        labels = np.array(
+            [COCO_91_TO_80.get(int(lbl), -1) for lbl in labels], dtype=np.int64
+        )
 
         return DetectionResult(boxes=boxes, scores=scores, labels=labels, masks=None)
 
