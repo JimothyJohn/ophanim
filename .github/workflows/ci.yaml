@@ -45,6 +45,15 @@ jobs:
       run: |
         uv run ruff format --check .
 
+    - name: Download detection model
+      # Mirrors Quickstart's check_and_export_model, pinned to a specific
+      # HuggingFace revision so CI is deterministic. The model is gitignored
+      # (103 MB, over GitHub's file limit) so it must be fetched at build time.
+      run: |
+        mkdir -p detection/models
+        curl -LsSf -o detection/models/rf-detr-nano.onnx \
+          https://huggingface.co/PierreMarieCurie/rf-detr-onnx/resolve/94f91976449c187be38e649863e3dadecc312437/rf-detr-nano.onnx
+
     - name: SAM Validate
       run: sam validate --region us-east-1
 
