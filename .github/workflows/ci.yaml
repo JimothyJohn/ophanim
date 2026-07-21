@@ -22,7 +22,7 @@ jobs:
         python-version: "3.12"
 
     - name: Install uv
-      run: curl -lsSf https://astral.sh/uv/install.sh | sh
+      run: curl -LsSf https://astral.sh/uv/install.sh | sh
 
     - name: Setup AWS SAM CLI
       uses: aws-actions/setup-sam@v2
@@ -98,7 +98,7 @@ jobs:
         
     - name: Install uv and SAM
       run: |
-        curl -lsSf https://astral.sh/uv/install.sh | sh
+        curl -LsSf https://astral.sh/uv/install.sh | sh
         
     - name: Setup AWS SAM CLI
       uses: aws-actions/setup-sam@v2
