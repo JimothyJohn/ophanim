@@ -486,7 +486,7 @@ $RECYCLE.BIN/
 # My stuff
 *.zip
 .aws-sam/
-images/
+images/*
 *.code-workspace
 events/
 *.env*
@@ -498,3 +498,5 @@ models/*
 .ruff_cache/
 !docs/ophanim.jpg
 !.env.example
+# Test fixture: unit/integration tests POST this image and assert detections
+!images/zidane.jpg
