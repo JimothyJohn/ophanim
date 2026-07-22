@@ -5,24 +5,24 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "numpy>=2.4.2",
-    "onnxruntime>=1.23.2",
-    "pillow>=12.1.0",
+    "numpy>=2.5.1",
+    "onnxruntime>=1.27.0",
+    "pillow>=12.3.0",
     "PyYAML>=6.0.3",
     "boto3",
 ]
 
 [dependency-groups]
 dev = [
-    "pytest>=9.0.2",
+    "pytest>=9.1.1",
     "requests",
-    "onnx>=1.20.1",
-    "onnxslim>=0.1.83",
+    "onnx>=1.22.0",
+    "onnxslim>=0.1.94",
     "pytest-benchmark>=4.0.0",
     "psutil>=5.9.0",
-    "ruff>=0.15.1",
-    "ty>=0.0.17",
-    "openapi-spec-validator>=0.7.2",
+    "ruff>=0.15.22",
+    "ty>=0.0.62",
+    "openapi-spec-validator>=0.9.0",
 ]
 
 [tool.setuptools.packages.find]
