@@ -115,7 +115,7 @@ jobs:
          use-installer: true
 
     - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v4
+      uses: aws-actions/configure-aws-credentials@v6
       with:
         # You need to set these secrets in your repo
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
