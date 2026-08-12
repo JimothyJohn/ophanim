@@ -6,7 +6,7 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "numpy>=2.5.1",
-    "onnxruntime>=1.27.0",
+    "onnxruntime>=1.28.0",
     "pillow>=12.3.0",
     "PyYAML>=6.0.3",
     "boto3",
@@ -17,13 +17,19 @@ dev = [
     "pytest>=9.1.1",
     "requests",
     "onnx>=1.22.0",
-    "onnxslim>=0.1.94",
+    "onnxslim>=0.1.95",
     "pytest-benchmark>=4.0.0",
     "psutil>=5.9.0",
-    "ruff>=0.15.22",
-    "ty>=0.0.62",
+    "ruff>=0.16.2",
+    "ty>=0.0.69",
     "openapi-spec-validator>=0.9.0",
 ]
+
+[tool.ruff.lint]
+# ruff 0.16 expanded the default rule set from 59 to 413 rules; pin back to
+# the pre-0.16 default (E4, E7, E9, F) so the bump doesn't fail CI on
+# previously-unselected rules. See https://astral.sh/blog/ruff-v0.16.0
+select = ["E4", "E7", "E9", "F"]
 
 [tool.setuptools.packages.find]
 where = ["."]
