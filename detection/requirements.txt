@@ -1,5 +1,5 @@
 Pillow>=12.3.0
-numpy>=2.5.1
+numpy>=2.5.2
 onnxruntime>=1.28.0
 PyYAML>=6.0.3
 boto3
