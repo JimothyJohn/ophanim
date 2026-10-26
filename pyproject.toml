@@ -20,8 +20,8 @@ dev = [
     "onnxslim>=0.1.98",
     "pytest-benchmark>=5.3.0",
     "psutil>=5.9.0",
-    "ruff>=0.17.1",
-    "ty>=0.0.89",
+    "ruff>=0.17.2",
+    "ty>=0.0.91",
     "openapi-spec-validator>=0.9.0",
 ]
 
